@@ -1,8 +1,10 @@
 import pygame as pg
 from screen import Screen
+from player import Player
 
 screen_list = ["navigation"]
 START_SCREEN = "navigation"
+START_DATE = 2276.0
 
 if __name__ == "__main__":
     pg.init()
@@ -12,13 +14,14 @@ if __name__ == "__main__":
     running = True
 
     screens = {s : Screen(s) for s in screen_list}
-    cur_screen = screens[START_SCREEN]
+    player = Player()
+    player.cur_screen = screens[START_SCREEN]
 
     clock=pg.time.Clock()
-    star_date = 0
+    player.star_date = START_DATE
     while running:
-        star_date += cur_screen.update()
-        cur_screen.draw(screen_display, date=star_date)
+        player = player.cur_screen.update(player)
+        player.cur_screen.draw(screen_display, date=player.star_date)
         pg.display.update()
         for event in pg.event.get():
             if event.type == pg.QUIT:

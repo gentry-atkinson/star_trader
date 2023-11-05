@@ -2,6 +2,7 @@ import json
 import os
 import pygame as pg
 from math import sin, cos, pi
+from player import Player
 
 from event_handler import Event_Handler
 
@@ -49,5 +50,7 @@ class Screen:
             
             screen.blit(icon.image, icon.pos(date))
 
-    def update(self) -> float:
-        return 0.01
+    def update(self, p: Player) -> Player:
+        new_p = p.copy()
+        new_p.star_date += 0.001
+        return new_p
