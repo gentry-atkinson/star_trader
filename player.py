@@ -5,6 +5,7 @@ class Player:
         self.star_date = 2276.0
         self.cur_planet = "Earth"
         self.cur_screen = None
+        self.running = True
 
     def copy(self):
         p = Player()

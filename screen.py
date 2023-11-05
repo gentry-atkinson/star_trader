@@ -4,7 +4,11 @@ import pygame as pg
 from math import sin, cos, pi
 from player import Player
 
-from event_handler import Event_Handler
+from key_handler import Key_Handler, Nav_Key_Handler
+
+key_handlers = {
+    "navigation" : Nav_Key_Handler
+}
 
 class Planet_Icon:
     def __init__(self, name, radius, orbit, starting_position) -> None:
@@ -33,9 +37,10 @@ class Screen:
             self.name = name
             self.background_file = str(configs["background_file"])
             self.background_image = pg.image.load(os.path.join("imgs", self.background_file+".png"))
-            self.event_handler = Event_Handler()
+            self.event_handler = Key_Handler()
             self.selector_file = str(configs["selector_file"])
             self.selector_image = pg.image.load(os.path.join("imgs", self.selector_file+".png"))
+            self.key_handler = key_handlers[str(configs["key_handler"])]()
 
             self.planet_icons = [
                 Planet_Icon("Sun", 0, 1, (600, 400)),
