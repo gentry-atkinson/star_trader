@@ -15,9 +15,10 @@ if __name__ == "__main__":
     cur_screen = screens[START_SCREEN]
 
     clock=pg.time.Clock()
-    
+    star_date = 0
     while running:
-        cur_screen.draw(screen_display, date=0.66)
+        star_date += cur_screen.update()
+        cur_screen.draw(screen_display, date=star_date)
         pg.display.update()
         for event in pg.event.get():
             if event.type == pg.QUIT:

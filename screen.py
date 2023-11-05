@@ -12,6 +12,17 @@ class Planet_Icon:
         self.orbital_period = orbit
         self.starting_position = starting_position
         self.image = pg.image.load(os.path.join("imgs", name+"_nav_icon.png"))
+    
+    def pos(self, date: float) -> tuple:
+        pos_x = 600 + self.radius * sin(2*pi*(date % self.orbital_period)/self.orbital_period)
+        pos_y = 400 - self.radius * cos(2*pi*(date % self.orbital_period)/self.orbital_period)
+        return(pos_x - self.image.get_width(), pos_y  - self.image.get_height())
+
+class Static_Icon:
+    def __init__(self, name, position) -> None:
+        self.name = name
+        self.position = position
+        self.image = pg.image.load(os.path.join("imgs", name+"_nav_icon.png"))
 
 class Screen:
     def __init__(self, name: str) -> None:
@@ -35,6 +46,8 @@ class Screen:
     def draw(self, screen: pg.Surface, date = 0) -> None:
         screen.blit(self.background_image, (0,0))
         for icon in self.planet_icons:
-            pos_x = 600 + icon.radius * sin(2*pi*(date % icon.orbital_period)/icon.orbital_period)
-            pos_y = 400 + icon.radius * cos(2*pi*(date % icon.orbital_period)/icon.orbital_period)
-            screen.blit(icon.image, (pos_x - icon.image.get_width(), pos_y - icon.image.get_height()))
+            
+            screen.blit(icon.image, icon.pos(date))
+
+    def update(self) -> float:
+        return 0.01
