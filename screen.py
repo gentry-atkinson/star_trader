@@ -1,33 +1,20 @@
 import json
 import os
-import pygame as pg
-from math import sin, cos, pi
-from player import Player
 
-from key_handler import Key_Handler, Nav_Key_Handler
+import pygame as pg
+
+from player import Player
+from screen_status import ScreenStatus, Planet_Icon, Static_Icon
+
+from key_handler import Key_Handler, NavKeyHandler, CockpitKeyHandler
 
 key_handlers = {
-    "navigation" : Nav_Key_Handler
+    "navigation" : NavKeyHandler,
+    "cockpit" : CockpitKeyHandler
 }
 
-class Planet_Icon:
-    def __init__(self, name, radius, orbit, starting_position) -> None:
-        self.name = name
-        self.radius = radius
-        self.orbital_period = orbit
-        self.starting_position = starting_position
-        self.image = pg.image.load(os.path.join("imgs", name+"_nav_icon.png"))
-    
-    def pos(self, date: float) -> tuple:
-        pos_x = 600 + self.radius * sin(2*pi*(date % self.orbital_period)/self.orbital_period)
-        pos_y = 400 - self.radius * cos(2*pi*(date % self.orbital_period)/self.orbital_period)
-        return(pos_x - self.image.get_width(), pos_y  - self.image.get_height())
+screen_status = ScreenStatus()
 
-class Static_Icon:
-    def __init__(self, name, position) -> None:
-        self.name = name
-        self.position = position
-        self.image = pg.image.load(os.path.join("imgs", name+"_nav_icon.png"))
 
 class Screen:
     def __init__(self, name: str) -> None:
@@ -56,6 +43,9 @@ class Screen:
             screen.blit(icon.image, icon.pos(date))
 
     def update(self, p: Player) -> Player:
+        global screen_status
+
         new_p = p.copy()
         new_p.star_date += 0.001
+        new_p, screen_status = self.key_handler.process_keys(new_p, screen_status)
         return new_p
