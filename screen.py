@@ -29,10 +29,13 @@ class Screen:
             self.selector_image = pg.image.load(os.path.join("imgs", self.selector_file+".png"))
             self.key_handler = key_handlers[str(configs["key_handler"])]()
 
-            self.planet_icons = [
-                Planet_Icon("Sun", 0, 1, (600, 400)),
-                Planet_Icon("Earth", 200, 1, 0)
-            ]
+            
+            self.planet_icons = []
+            if self.name == "navigation":
+                self.planet_icons.append(Planet_Icon("Sun", 0, 1, (600, 400)))
+                self.planet_icons.append(Planet_Icon("Earth", 200, 1, 0))
+
+                
 
             
 
