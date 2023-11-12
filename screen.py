@@ -6,11 +6,12 @@ import pygame as pg
 from player import Player
 from screen_status import ScreenStatus, Planet_Icon, Static_Icon
 
-from key_handler import Key_Handler, NavKeyHandler, CockpitKeyHandler
+from key_handler import *
 
 key_handlers = {
     "navigation" : NavKeyHandler,
-    "cockpit" : CockpitKeyHandler
+    "cockpit" : CockpitKeyHandler,
+    "local" : LocalKeyHandler
 }
 
 screen_status = ScreenStatus()

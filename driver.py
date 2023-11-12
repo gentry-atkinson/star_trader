@@ -2,7 +2,7 @@ import pygame as pg
 from screen import Screen
 from player import Player
 
-screen_list = ["navigation", "cockpit"]
+screen_list = ["navigation", "cockpit", "local"]
 START_SCREEN = "navigation"
 START_DATE = 2276.0
 

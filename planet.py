@@ -12,4 +12,6 @@ class Planet:
             self.small_image = str(configs["small_image"])
             self.large_image = str(configs["small_image"])
             self.year_len = float(configs["year_len"])
+            self.produces = list(configs["produces"])
+            self.consumes = list(configs["comsumes"])
 

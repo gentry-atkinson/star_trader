@@ -17,10 +17,8 @@ class NavKeyHandler(Key_Handler):
     def process_keys(self, p: Player, s: ScreenStatus) -> tuple:
         events = pg.event.get()
         for event in events:
-            print(f"{event.type} is not {pg.KEYDOWN}")
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_TAB:
-                    print("tab")
                     p.cur_screen_name = "cockpit"
             if event.type == pg.QUIT:
                 p.running = False
@@ -36,8 +34,24 @@ class CockpitKeyHandler(Key_Handler):
         for event in events:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_n:
-                    print("n")
                     p.cur_screen_name = "navigation"
+                elif event.key == pg.K_l:
+                    p.cur_screen_name = "local"
+            if event.type == pg.QUIT:
+                p.running = False
+        return (p, s)
+    
+class LocalKeyHandler(Key_Handler):
+    def __init__(self) -> None:
+        super().__init__()
+        pass
+
+    def process_keys(self, p: Player, s: ScreenStatus) -> tuple:
+        events = pg.event.get()
+        for event in events:
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_TAB:
+                    p.cur_screen_name = "cockpit"
             if event.type == pg.QUIT:
                 p.running = False
         return (p, s)
