@@ -1,6 +1,8 @@
 import pygame as pg
+
 from utils.player import Player
 from utils.screen_status import ScreenStatus
+from utils.globals import *
 
 class Key_Handler:
     def __init__(self) -> None:
@@ -16,10 +18,9 @@ class NavKeyHandler(Key_Handler):
 
     def process_keys(self, p: Player, s: ScreenStatus) -> tuple:
         events = pg.event.get()
-        planet_list = ["Venus", "Earth", "Mars"]
         cur_idx = -1
-        if s.focus in planet_list:
-            cur_idx = planet_list.index(s.focus)
+        if s.focus in PLANET_LIST:
+            cur_idx = PLANET_LIST.index(s.focus)
         for event in events:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_TAB:
@@ -29,11 +30,11 @@ class NavKeyHandler(Key_Handler):
                 if event.key == pg.K_j:
                     s.focus = p.cur_planet
                 if event.key == pg.K_UP and cur_idx > -1:
-                    cur_idx = (cur_idx + 1) % len(planet_list)
-                    s.focus = planet_list[cur_idx]
+                    cur_idx = (cur_idx + 1) % len(PLANET_LIST)
+                    s.focus = PLANET_LIST[cur_idx]
                 if event.key == pg.K_DOWN and cur_idx > -1:
-                    cur_idx = (cur_idx - 1) % len(planet_list)
-                    s.focus = planet_list[cur_idx]
+                    cur_idx = (cur_idx - 1) % len(PLANET_LIST)
+                    s.focus = PLANET_LIST[cur_idx]
 
             if event.type == pg.QUIT:
                 p.running = False

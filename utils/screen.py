@@ -4,7 +4,7 @@ import os
 import pygame as pg
 
 from utils.player import Player
-from utils.screen_status import ScreenStatus, Planet_Icon, Static_Icon
+from utils.screen_status import ScreenStatus, Planet_Icon, Static_Icon, Icon
 
 from utils.key_handler import *
 from utils.globals import *
@@ -42,7 +42,17 @@ class Screen:
             screen_status.focus = "Earth"
 
                 
-
+    def draw_on_center(a: Icon, b: pg.Surface, screen: pg.Surface, date):
+        """
+        Draw image b centered on image a on screen
+        """
+        a_x, a_y = a.pos(date)
+        x_dif = b.get_width() - a.image.get_width()
+        y_dif = b.get_height() - a.image.get_height()
+        screen.blit(
+            b,
+            (a_x - (x_dif//2), a_y - (y_dif//2))
+        )
             
 
     def draw(self, screen: pg.Surface, date = 0) -> None:
@@ -50,7 +60,7 @@ class Screen:
         for name, icon in self.icons.items():
             screen.blit(icon.image, icon.pos(date))
         if screen_status.focus:
-            screen.blit(self.selector_image, screen_status.focus_icon.pos(date))
+            Screen.draw_on_center(screen_status.focus_icon, self.selector_image, screen, date)
 
     def update(self, p: Player) -> Player:
         global screen_status

@@ -22,11 +22,12 @@ class Planet_Icon(Icon):
         self.orbital_period = orbit
         self.starting_position = starting_position
         self.image = pg.image.load(os.path.join(IMG_DIR, name+"_nav_icon.png"))
+        self.image = pg.transform.scale(self.image, PLANET_ICON_SIZE)
     
     def pos(self, date: float) -> tuple:
         pos_x = 600 + self.radius * sin(2*pi*(date % self.orbital_period)/self.orbital_period)
         pos_y = 400 - self.radius * cos(2*pi*(date % self.orbital_period)/self.orbital_period)
-        return(pos_x - self.image.get_width(), pos_y  - self.image.get_height())
+        return(pos_x - self.image.get_width()//2, pos_y  - self.image.get_height()//2)
 
 class Static_Icon(Icon):
     def __init__(self, name, position) -> None:
