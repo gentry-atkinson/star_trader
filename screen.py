@@ -31,10 +31,14 @@ class Screen:
             self.key_handler = key_handlers[str(configs["key_handler"])]()
 
             
-            self.planet_icons = []
+            self.icons = {}
             if self.name == "navigation":
-                self.planet_icons.append(Planet_Icon("Sun", 0, 1, (600, 400)))
-                self.planet_icons.append(Planet_Icon("Earth", 200, 1, 0))
+                self.icons["Sun"] = Planet_Icon("Sun", 0, 1, (600, 400))
+                self.icons["Earth"] = Planet_Icon("Earth", 200, 1, 0)
+                self.icons["Venus"] = Planet_Icon("Venus", 100, 0.615, 0.5)
+                self.icons["Mars"] = Planet_Icon("Mars", 400, 1.88, 0.75)
+
+            screen_status.focus = "Earth"
 
                 
 
@@ -42,14 +46,16 @@ class Screen:
 
     def draw(self, screen: pg.Surface, date = 0) -> None:
         screen.blit(self.background_image, (0,0))
-        for icon in self.planet_icons:
-            
+        for name, icon in self.icons.items():
             screen.blit(icon.image, icon.pos(date))
+        if screen_status.focus:
+            screen.blit(self.selector_image, screen_status.focus_icon.pos(date))
 
     def update(self, p: Player) -> Player:
         global screen_status
-
         new_p = p.copy()
-        new_p.star_date += 0.001
+        # new_p.star_date += 0.001
         new_p, screen_status = self.key_handler.process_keys(new_p, screen_status)
+        if screen_status.focus:
+            screen_status.focus_icon = self.icons[screen_status.focus]
         return new_p
