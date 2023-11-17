@@ -1,6 +1,6 @@
 import pygame as pg
-from screen import Screen
-from player import Player
+from utils.screen import Screen
+from utils.player import Player
 
 screen_list = ["navigation", "cockpit", "local"]
 START_SCREEN = "navigation"

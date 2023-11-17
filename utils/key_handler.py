@@ -1,6 +1,6 @@
 import pygame as pg
-from player import Player
-from screen_status import ScreenStatus
+from utils.player import Player
+from utils.screen_status import ScreenStatus
 
 class Key_Handler:
     def __init__(self) -> None:

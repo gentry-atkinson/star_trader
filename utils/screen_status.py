@@ -18,7 +18,7 @@ class Planet_Icon(Icon):
         self.radius = radius
         self.orbital_period = orbit
         self.starting_position = starting_position
-        self.image = pg.image.load(os.path.join("imgs", name+"_nav_icon.png"))
+        self.image = pg.image.load(os.path.join("utils","imgs", name+"_nav_icon.png"))
     
     def pos(self, date: float) -> tuple:
         pos_x = 600 + self.radius * sin(2*pi*(date % self.orbital_period)/self.orbital_period)
@@ -30,7 +30,7 @@ class Static_Icon(Icon):
         super().__init__()
         self.name = name
         self.position = position
-        self.image = pg.image.load(os.path.join("imgs", name+"_nav_icon.png"))
+        self.image = pg.image.load(os.path.join("utils","imgs", name+"_nav_icon.png"))
 
     def pos(self, date=None) -> tuple:
         return self.position

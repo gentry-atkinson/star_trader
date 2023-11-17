@@ -3,10 +3,10 @@ import os
 
 import pygame as pg
 
-from player import Player
-from screen_status import ScreenStatus, Planet_Icon, Static_Icon
+from utils.player import Player
+from utils.screen_status import ScreenStatus, Planet_Icon, Static_Icon
 
-from key_handler import *
+from utils.key_handler import *
 
 key_handlers = {
     "navigation" : NavKeyHandler,
@@ -24,10 +24,10 @@ class Screen:
             configs = dict(json.load(f))
             self.name = name
             self.background_file = str(configs["background_file"])
-            self.background_image = pg.image.load(os.path.join("imgs", self.background_file+".png"))
+            self.background_image = pg.image.load(os.path.join("utils","imgs", self.background_file+".png"))
             self.event_handler = Key_Handler()
             self.selector_file = str(configs["selector_file"])
-            self.selector_image = pg.image.load(os.path.join("imgs", self.selector_file+".png"))
+            self.selector_image = pg.image.load(os.path.join("utils","imgs", self.selector_file+".png"))
             self.key_handler = key_handlers[str(configs["key_handler"])]()
 
             
