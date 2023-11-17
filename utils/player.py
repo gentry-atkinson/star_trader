@@ -1,10 +1,11 @@
+from utils.globals import *
 
 class Player:
     def __init__(self) -> None:
         self.money = 0
         self.star_date = 2276.0
-        self.cur_planet = "Earth"
-        self.cur_screen_name = "navigation"
+        self.cur_planet = START_PLANET
+        self.cur_screen_name = START_SCREEN
         self.cur_screen = None
         self.running = True
         self.running = True

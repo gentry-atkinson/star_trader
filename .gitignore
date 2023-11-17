@@ -1,6 +1,6 @@
 # directories to ignore
 env/**
-__pycache__/**
+**/__pycache__
 
 # file types to ignore
 **.pyc

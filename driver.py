@@ -1,15 +1,16 @@
 import pygame as pg
 from utils.screen import Screen
 from utils.player import Player
+from utils.globals import *
 
 screen_list = ["navigation", "cockpit", "local"]
 START_SCREEN = "navigation"
-START_DATE = 2276.0
+
 
 if __name__ == "__main__":
     pg.init()
     pg.display.set_caption("Star Trader")
-    screen_display = pg.display.set_mode((1200, 800))
+    screen_display = pg.display.set_mode(SCREEN_SIZE)
 
     running = True
 
