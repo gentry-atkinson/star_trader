@@ -1,5 +1,11 @@
 import os
 import json
+from random import choice, uniform
+
+from utils.globals import *
+
+TRENDS = {"neutral" : 1., "rising" : 1.05, "falling": 0.95, "booming" : 1.15, "crashing": 0.85}
+VOLATILITY = {"very high" : 1.0, "high" : 0.5, "neutral" : 0.1, "low" : 0.05, "very low" : 0.01}
 
 class Planet:
     def __init__(self, name: str) -> None:
@@ -7,11 +13,52 @@ class Planet:
             configs = dict(json.load(f))
             self.name = name
             self.ports = list(configs["ports"])
-            self.wealth = float(configs["wealth"])
-            self.corruption = float(configs["corruption"])
+            self.wealth = str(configs["wealth"])
+            self.corruption = str(configs["corruption"])
+            self.volatility = str(configs["volatility"])
             self.small_image = str(configs["small_image"])
             self.large_image = str(configs["small_image"])
             self.year_len = float(configs["year_len"])
             self.produces = list(configs["produces"])
-            self.consumes = list(configs["comsumes"])
+            self.consumes = list(configs["consumes"])
+
+            self.trend = choice(list(TRENDS.keys()))
+            self.products = {
+                "iron" : [IRON_GLOBAL_START_AVG],
+                "methane" : [METHANE_GLOBAL_START_AVG],
+                "clothing" : [CLOTHING_GLOBAL_START_AVG],
+                "medicine" : [MEDICINE_GLOBAL_START_AVG]
+            }
+            self._init_product_prices()
+            #print(self.products)
+
+    def _init_product_prices(self):
+        for prod in self.products:
+            if prod in self.produces:
+                self.products[prod][0] /= 2.
+            elif prod in self.consumes:
+                self.products[prod][0] *= 2.
+
+            for i in range(1, 30):
+                self.products[prod].append(
+                    self.products[prod][i-1] * TRENDS[self.trend]
+                )
+                self.products[prod][i] = self.products[prod][i] * (1+(uniform(-1, 1) *VOLATILITY[self.volatility]))
+
+# if __name__ == '__main__':
+#     earth = {
+#         "ports": ["Boca Chica", "Vandenburg", "Baikonur", "Cape Canaveral", "Wenchang"],
+#         "wealth": "very high",
+#         "corruption": "high",
+#         "volatility": "high",
+#         "small_image": "Earth_nav_icon.png",
+#         "large_image": "Earth_large.png",
+#         "year_len" : 1.0,
+#         "produces" : ["medicine", "clothing"],
+#         "consumes" : ["methane"]
+#     }
+
+#     with open('config/Earth.ini', 'w') as f:
+#         json.dump(earth, f)
+
 

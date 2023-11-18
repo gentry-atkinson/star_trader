@@ -35,6 +35,8 @@ class NavKeyHandler(Key_Handler):
                 if event.key == pg.K_DOWN and cur_idx > -1:
                     cur_idx = (cur_idx - 1) % len(PLANET_LIST)
                     s.focus = PLANET_LIST[cur_idx]
+                if event.key == pg.K_RETURN and cur_idx > -1:
+                    p.cur_planet = PLANET_LIST[cur_idx]
 
             if event.type == pg.QUIT:
                 p.running = False

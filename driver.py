@@ -1,9 +1,9 @@
 import pygame as pg
 from utils.screen import Screen
 from utils.player import Player
+from utils.planet import Planet
 from utils.globals import *
 
-screen_list = ["navigation", "cockpit", "local"]
 START_SCREEN = "navigation"
 
 
@@ -12,9 +12,8 @@ if __name__ == "__main__":
     pg.display.set_caption("Star Trader")
     screen_display = pg.display.set_mode(SCREEN_SIZE)
 
-    running = True
-
-    screens = {s : Screen(s) for s in screen_list}
+    planets = {p : Planet(p) for p in ["Earth"]}
+    screens = {s : Screen(s) for s in SCREEN_LIST}
     player = Player()
     player.cur_screen = screens[START_SCREEN]
 
