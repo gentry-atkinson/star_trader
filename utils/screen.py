@@ -21,7 +21,7 @@ screen_status = ScreenStatus()
 class Screen:
     def __init__(self, name: str) -> None:
         with open(os.path.join("config", name+".ini"), 'r') as f:
-            print(os.listdir())
+            #print(os.listdir())
             configs = dict(json.load(f))
             self.name = name
             self.background_file = str(configs["background_file"])

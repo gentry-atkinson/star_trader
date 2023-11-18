@@ -2,6 +2,7 @@ import os
 import json
 from random import choice, uniform
 
+from utils.port import Port
 from utils.globals import *
 
 TRENDS = {"neutral" : 1., "rising" : 1.05, "falling": 0.95, "booming" : 1.15, "crashing": 0.85}
@@ -12,7 +13,9 @@ class Planet:
         with open(os.path.join("config", name+".ini"), 'r') as f:
             configs = dict(json.load(f))
             self.name = name
-            self.ports = list(configs["ports"])
+            self.ports = {
+                Port(p) for p in list(configs["ports"])
+            }
             self.wealth = str(configs["wealth"])
             self.corruption = str(configs["corruption"])
             self.volatility = str(configs["volatility"])
@@ -21,6 +24,7 @@ class Planet:
             self.year_len = float(configs["year_len"])
             self.produces = list(configs["produces"])
             self.consumes = list(configs["consumes"])
+            self.base_shipping_cost = float(configs["shipping cost"])
 
             self.trend = choice(list(TRENDS.keys()))
             self.products = {
@@ -44,6 +48,14 @@ class Planet:
                     self.products[prod][i-1] * TRENDS[self.trend]
                 )
                 self.products[prod][i] = self.products[prod][i] * (1+(uniform(-1, 1) *VOLATILITY[self.volatility]))
+
+    def update(self):
+        for prod in self.products:
+            self.products[prod].append(
+                        self.products[prod][-1] * TRENDS[self.trend]
+                    )
+            self.products[prod][-1] = self.products[prod][-1] * (1+(uniform(-1, 1) *VOLATILITY[self.volatility]))
+            self.products[prod] = self.products[prod][-1]
 
 # if __name__ == '__main__':
 #     earth = {
