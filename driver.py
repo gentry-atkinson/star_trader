@@ -1,5 +1,5 @@
 import pygame as pg
-from utils.screen import Screen
+from utils.screen import ScreenFactory
 from utils.player import Player
 from utils.planet import Planet
 from utils.globals import *
@@ -13,7 +13,7 @@ if __name__ == "__main__":
     screen_display = pg.display.set_mode(SCREEN_SIZE)
 
     planets = {p : Planet(p) for p in ["Earth"]}
-    screens = {s : Screen(s) for s in SCREEN_LIST}
+    screens = {s : ScreenFactory(s) for s in SCREEN_LIST}
     player = Player()
     player.cur_screen = screens[START_SCREEN]
 

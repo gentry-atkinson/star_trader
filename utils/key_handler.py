@@ -8,7 +8,7 @@ class Key_Handler:
     def __init__(self) -> None:
         pass
 
-    def process_keys(p: Player, s: ScreenStatus) -> tuple:
+    def process_keys(self, p: Player, s: ScreenStatus) -> tuple:
         return (p, s)
 
 class NavKeyHandler(Key_Handler):
