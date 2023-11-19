@@ -4,9 +4,6 @@ from utils.player import Player
 from utils.planet import Planet
 from utils.globals import *
 
-START_SCREEN = "navigation"
-
-
 if __name__ == "__main__":
     pg.init()
     pg.display.set_caption("Star Trader")

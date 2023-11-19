@@ -10,20 +10,6 @@ from utils.key_handler import *
 from utils.globals import *
 
 
-def ScreenFactory(name: str):
-    if name == "navigation":
-        s = NavScreen(name)
-        return s
-    elif name == "cockpit":
-        s = CockpitScreen(name)
-        return s
-    elif name == "local":
-        s = LocalScreen(name)
-        return s
-    else:
-        s = Screen(name)
-        return s
-
 screen_status = ScreenStatus()
 
 class Screen:
@@ -71,8 +57,8 @@ class Screen:
         return p
     
 class NavScreen(Screen):
-    def __init__(self, name: str) -> None:
-        super().__init__(name)
+    def __init__(self) -> None:
+        super().__init__("navigation")
         self.icons["Sun"] = Planet_Icon("Sun", 0, 1, (600, 400))
         self.icons["Earth"] = Planet_Icon("Earth", 200, 1, 0)
         self.icons["Venus"] = Planet_Icon("Venus", 100, 0.615, 0.5)
@@ -80,15 +66,32 @@ class NavScreen(Screen):
         self.key_handler = NavKeyHandler()
 
 class CockpitScreen(Screen):
-    def __init__(self, name: str) -> None:
-        super().__init__(name)
+    def __init__(self) -> None:
+        super().__init__("cockpit")
         self.key_handler = CockpitKeyHandler()
 
 class LocalScreen(Screen):
-    def __init__(self, name: str) -> None:
-        super().__init__(name)
+    def __init__(self) -> None:
+        super().__init__("local")
         self.key_handler = LocalKeyHandler()
 
 class EconomyScreen(Screen):
-    def __init__(self, name: str) -> None:
-        super().__init__(name)
+    def __init__(self) -> None:
+        super().__init__("economy")
+
+def ScreenFactory(name: str) -> Screen:
+    if name == "navigation":
+        s = NavScreen()
+        return s
+    elif name == "cockpit":
+        s = CockpitScreen()
+        return s
+    elif name == "local":
+        s = LocalScreen()
+        return s
+    elif name == "economy":
+        s = EconomyScreen()
+        return s
+    else:
+        s = Screen(name)
+        return s
