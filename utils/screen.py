@@ -78,6 +78,7 @@ class LocalScreen(Screen):
 class EconomyScreen(Screen):
     def __init__(self) -> None:
         super().__init__("economy")
+        self.key_handler = EconomyKeyHandler()
 
 def ScreenFactory(name: str) -> Screen:
     if name == "navigation":

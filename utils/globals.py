@@ -13,4 +13,4 @@ IRON_GLOBAL_START_AVG = 100
 METHANE_GLOBAL_START_AVG = 20
 CLOTHING_GLOBAL_START_AVG = 150
 MEDICINE_GLOBAL_START_AVG = 300
-SCREEN_LIST = ["navigation", "cockpit", "local"]
+SCREEN_LIST = ["navigation", "cockpit", "local", "economy"]
