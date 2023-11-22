@@ -25,6 +25,7 @@ class Screen:
             self.background_image = pg.image.load(os.path.join(IMG_DIR, self.background_file+".png"))
             self.selector_file = str(configs["selector_file"])
             self.selector_image = pg.image.load(os.path.join(IMG_DIR, self.selector_file+".png"))
+            self.second_selector_file = str(configs["second_selector_file"])
             self.key_handler = None
 
             self.icons = {}
@@ -107,7 +108,7 @@ class EconomyScreen(Screen):
     def __init__(self) -> None:
         super().__init__("economy")
         self.key_handler = EconomyKeyHandler()
-        self.second_selector_image = pg.image.load(os.path.join(IMG_DIR, self.selector_file+".png"))
+        self.second_selector_image = pg.image.load(os.path.join(IMG_DIR, self.second_selector_file+".png"))
         self.planet_icons = {
             "Venus" : Static_Icon("Venus", (200, 100), ECON_ICON_SIZE),
             "Mars" : Static_Icon("Mars", (400, 100), ECON_ICON_SIZE),
