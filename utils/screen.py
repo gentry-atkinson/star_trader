@@ -88,6 +88,8 @@ class NavScreen(Screen):
         p = super().update(p)
         if screen_status.focus:
             screen_status.focus_icon = self.planet_icons[screen_status.focus]
+        else:
+            screen_status.focus_icon = None
         return p
 
 
@@ -125,6 +127,15 @@ class EconomyScreen(Screen):
             screen.blit(icon.image, icon.pos(date))
         for _, icon in self.product_icons.items():
             screen.blit(icon.image, icon.pos(date))
+
+    def update(self, p: Player) -> Player:
+        global screen_status
+        p = super().update(p)
+        if screen_status.focus:
+            screen_status.focus_icon = self.planet_icons[screen_status.focus]
+        else:
+            screen_status.focus_icon = None
+        return p
 
 def ScreenFactory(name: str) -> Screen:
     if name == "navigation":

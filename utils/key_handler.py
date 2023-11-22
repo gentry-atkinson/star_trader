@@ -106,7 +106,15 @@ class EconomyKeyHandler(Key_Handler):
     def process_keys(self, p: Player, s: ScreenStatus) -> tuple:
         """
         tab: move to cockpit sreen
+        left/right arrow: scroll through planet selections
+        up/down arrows: scroll through product selections
         """
+        if s.focus_idx == -1:
+            s.focus_idx = 0
+            s.focus = PLANET_LIST[0]
+        if s.second_focus_idx == -1:
+            s.second_focus_idx = 0
+            s.second_focus = PRODUCT_LIST[0]
         events = pg.event.get()
         for event in events:
             if event.type == pg.KEYDOWN:
@@ -114,6 +122,14 @@ class EconomyKeyHandler(Key_Handler):
                     p.cur_screen_name = "cockpit"
                     s.focus = ""
                     s.focus_icon = None
+                    s.second_focus = ""
+                    s.second_focus_icon = None
+                if event.key == pg.K_LEFT:
+                    s.focus_idx = (s.focus_idx+1) % len(PLANET_LIST)
+                    s.focus = PLANET_LIST[s.focus_idx]
+                if event.key == pg.K_RIGHT:
+                    s.focus_idx = (s.focus_idx-1) % len(PLANET_LIST)
+                    s.focus = PLANET_LIST[s.focus_idx]
             if event.type == pg.QUIT:
                 p.running = False
         return (p, s)
