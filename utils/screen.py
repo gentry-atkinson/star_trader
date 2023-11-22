@@ -7,6 +7,7 @@ import pygame as pg
 from utils.player import Player
 from utils.planet import Planet
 from utils.screen_status import ScreenStatus, Planet_Icon, Static_Icon, Icon
+from utils.helper_funcs import deep_compare_lists
 from utils.key_handler import *
 from utils.globals import *
 
@@ -108,6 +109,7 @@ class EconomyScreen(Screen):
             "Mars" : Static_Icon("Mars", (400, 100), ECON_ICON_SIZE),
             "Earth" : Static_Icon("Earth", (600, 100), ECON_ICON_SIZE)
         }
+        assert deep_compare_lists(self.planet_icons.keys(), PLANET_LIST), "Incomplete planet list on Econ Screen"
 
     def draw(self, screen: pg.Surface, date = 0) -> None:
         super().draw(screen, date)
