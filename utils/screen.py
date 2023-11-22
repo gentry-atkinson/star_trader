@@ -5,8 +5,8 @@ from math import sqrt
 import pygame as pg
 
 from utils.player import Player
+from utils.planet import Planet
 from utils.screen_status import ScreenStatus, Planet_Icon, Static_Icon, Icon
-
 from utils.key_handler import *
 from utils.globals import *
 
@@ -14,6 +14,7 @@ from utils.globals import *
 screen_status = ScreenStatus()
 
 class Screen:
+    _planet_list = None
     def __init__(self, name: str) -> None:
         with open(os.path.join("config", name+".ini"), 'r') as f:
             #print(os.listdir())
@@ -54,6 +55,9 @@ class Screen:
         global screen_status
         p, screen_status = self.key_handler.process_keys(p, screen_status)
         return p
+    
+    def set_planet_dict(p: list[Planet]) -> None:
+        Screen._planet_list = p
     
 class NavScreen(Screen):
     def __init__(self) -> None:
@@ -99,6 +103,16 @@ class EconomyScreen(Screen):
     def __init__(self) -> None:
         super().__init__("economy")
         self.key_handler = EconomyKeyHandler()
+        self.planet_icons = {
+            "Venus" : Static_Icon("Venus", (200, 100), ECON_ICON_SIZE),
+            "Mars" : Static_Icon("Mars", (400, 100), ECON_ICON_SIZE),
+            "Earth" : Static_Icon("Earth", (600, 100), ECON_ICON_SIZE)
+        }
+
+    def draw(self, screen: pg.Surface, date = 0) -> None:
+        super().draw(screen, date)
+        for _, icon in self.planet_icons.items():
+            screen.blit(icon.image, icon.pos(date))
 
 def ScreenFactory(name: str) -> Screen:
     if name == "navigation":

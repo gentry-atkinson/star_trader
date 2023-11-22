@@ -11,13 +11,14 @@ class ScreenStatus:
         self.focus_icon = None
 
 class Icon:
-    def __init__(self) -> None:
+    def __init__(self, name) -> None:
+        self.name = name
+        self.highlight = False
         pass
 
 class Planet_Icon(Icon):
     def __init__(self, name, radius, orbit, starting_position) -> None:
-        super().__init__()
-        self.name = name
+        super().__init__(name)
         self.radius = radius
         self.orbital_period = orbit
         self.starting_position = starting_position
@@ -30,11 +31,12 @@ class Planet_Icon(Icon):
         return(pos_x - self.image.get_width()//2, pos_y  - self.image.get_height()//2)
 
 class Static_Icon(Icon):
-    def __init__(self, name, position) -> None:
-        super().__init__()
-        self.name = name
+    def __init__(self, name: str, position: tuple, size: tuple) -> None:
+        super().__init__(name)
         self.position = position
         self.image = pg.image.load(os.path.join(IMG_DIR, name+"_nav_icon.png"))
+        self.image = pg.transform.scale(self.image, size)
+
 
     def pos(self, date=None) -> tuple:
         return self.position
