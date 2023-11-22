@@ -69,6 +69,7 @@ class NavScreen(Screen):
         self.planet_icons["Venus"] = Planet_Icon("Venus", 100, 0.615, 0.5)
         self.planet_icons["Mars"] = Planet_Icon("Mars", 400, 1.88, 0.75)
         self.key_handler = NavKeyHandler()
+        assert deep_compare_lists(PLANET_LIST, self.planet_icons.keys()), "Incomplete planet list on Nav Screen"
 
     def get_travel_time(a: Planet_Icon, b: Planet_Icon):
         a_x, a_y = a.pos()
@@ -109,11 +110,20 @@ class EconomyScreen(Screen):
             "Mars" : Static_Icon("Mars", (400, 100), ECON_ICON_SIZE),
             "Earth" : Static_Icon("Earth", (600, 100), ECON_ICON_SIZE)
         }
-        assert deep_compare_lists(self.planet_icons.keys(), PLANET_LIST), "Incomplete planet list on Econ Screen"
+        assert deep_compare_lists(PLANET_LIST, self.planet_icons.keys()), "Incomplete planet list on Econ Screen"
+        
+        self.product_icons = {
+            "Iron" : Static_Icon("Iron", (100, 200), ECON_PRODUCT_SIZE),
+            "Methane" : Static_Icon("Methane", (100, 300), ECON_PRODUCT_SIZE),
+            "Clothing" : Static_Icon("Clothing", (100, 400), ECON_PRODUCT_SIZE),
+            "Medicine" : Static_Icon("Medicine", (100, 500), ECON_PRODUCT_SIZE),
+        }
 
     def draw(self, screen: pg.Surface, date = 0) -> None:
         super().draw(screen, date)
         for _, icon in self.planet_icons.items():
+            screen.blit(icon.image, icon.pos(date))
+        for _, icon in self.product_icons.items():
             screen.blit(icon.image, icon.pos(date))
 
 def ScreenFactory(name: str) -> Screen:

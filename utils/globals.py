@@ -16,3 +16,4 @@ MEDICINE_GLOBAL_START_AVG = 300
 SCREEN_LIST = ["navigation", "cockpit", "local", "economy"]
 TRAVEL_TIME_PER_PIXEL = 0.001
 ECON_ICON_SIZE = (40, 40)
+ECON_PRODUCT_SIZE = (60, 30)
