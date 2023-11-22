@@ -107,19 +107,20 @@ class EconomyScreen(Screen):
     def __init__(self) -> None:
         super().__init__("economy")
         self.key_handler = EconomyKeyHandler()
+        self.second_selector_image = pg.image.load(os.path.join(IMG_DIR, self.selector_file+".png"))
         self.planet_icons = {
             "Venus" : Static_Icon("Venus", (200, 100), ECON_ICON_SIZE),
             "Mars" : Static_Icon("Mars", (400, 100), ECON_ICON_SIZE),
             "Earth" : Static_Icon("Earth", (600, 100), ECON_ICON_SIZE)
         }
         assert deep_compare_lists(PLANET_LIST, self.planet_icons.keys()), "Incomplete planet list on Econ Screen"
-        
         self.product_icons = {
-            "Iron" : Static_Icon("Iron", (100, 200), ECON_PRODUCT_SIZE),
-            "Methane" : Static_Icon("Methane", (100, 300), ECON_PRODUCT_SIZE),
-            "Clothing" : Static_Icon("Clothing", (100, 400), ECON_PRODUCT_SIZE),
-            "Medicine" : Static_Icon("Medicine", (100, 500), ECON_PRODUCT_SIZE),
+            "iron" : Static_Icon("Iron", (100, 200), ECON_PRODUCT_SIZE),
+            "methane" : Static_Icon("Methane", (100, 300), ECON_PRODUCT_SIZE),
+            "clothing" : Static_Icon("Clothing", (100, 400), ECON_PRODUCT_SIZE),
+            "medicine" : Static_Icon("Medicine", (100, 500), ECON_PRODUCT_SIZE),
         }
+        assert deep_compare_lists(PRODUCT_LIST, self.product_icons.keys()), "Incomplete planet list on Econ Screen"
 
     def draw(self, screen: pg.Surface, date = 0) -> None:
         super().draw(screen, date)
@@ -127,6 +128,8 @@ class EconomyScreen(Screen):
             screen.blit(icon.image, icon.pos(date))
         for _, icon in self.product_icons.items():
             screen.blit(icon.image, icon.pos(date))
+        if screen_status.second_focus:
+            Screen._draw_on_center(screen_status.second_focus_icon, self.second_selector_image, screen, date)
 
     def update(self, p: Player) -> Player:
         global screen_status
@@ -135,6 +138,12 @@ class EconomyScreen(Screen):
             screen_status.focus_icon = self.planet_icons[screen_status.focus]
         else:
             screen_status.focus_icon = None
+
+        if screen_status.second_focus:
+            screen_status.second_focus_icon = self.product_icons[screen_status.second_focus]
+        else:
+            screen_status.second_focus_icon = None
+        
         return p
 
 def ScreenFactory(name: str) -> Screen:

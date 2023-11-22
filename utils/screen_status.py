@@ -11,7 +11,7 @@ class ScreenStatus:
         self.focus_idx = -1
         self.focus_icon = None
         self.second_focus = None
-        self.second_focus_idx = None
+        self.second_focus_idx = -1
         self.second_focus_icon = None
 
 class Icon:
