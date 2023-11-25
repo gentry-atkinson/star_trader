@@ -20,6 +20,6 @@ if __name__ == "__main__":
     while player.running:
         player.cur_screen = screens[player.cur_screen_name]
         player = player.cur_screen.update(player)
-        player.cur_screen.draw(screen_display, date=player.star_date)
+        player.cur_screen.draw(screen_display, player)
         pg.display.update()
             

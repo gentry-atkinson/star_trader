@@ -9,7 +9,7 @@ import pygame as pg
 from utils.player import Player
 from utils.planet import Planet
 from utils.screen_status import ScreenStatus, Planet_Icon, Static_Icon, Icon
-from utils.helper_funcs import deep_compare_lists
+from utils.helper_funcs import deep_compare_lists, euc_dis
 from utils.key_handler import *
 from utils.globals import *
 
@@ -32,7 +32,7 @@ class Screen:
             self.key_handler = None
 
             self.icons = {}
-            screen_status.focus = "Earth"
+            screen_status.focus = ""
 
                 
     def _draw_on_center(a: Icon, b: pg.Surface, screen: pg.Surface, date):
@@ -43,17 +43,26 @@ class Screen:
         x_dif = b.get_width() - a.image.get_width()
         y_dif = b.get_height() - a.image.get_height()
         screen.blit(
-            b,
-            (a_x - (x_dif//2), a_y - (y_dif//2))
+            b, (a_x - (x_dif//2), a_y - (y_dif//2))
         )
+
+    def _draw_dotted_line(a: tuple, b: tuple, screen: pg.surface, dot: pg.surface):
+        num_dots = euc_dis(a, b) // DIS_BETWEEN_LINE_DOTS + 1
+        a = a = (a[0] + DOT_SIZE//2, a[1] + DOT_SIZE//2)
+        d_x = (a[0] - b[0]) // num_dots
+        d_y = (a[1] - b[1]) // num_dots
+        for _ in range(int(num_dots)):
+            screen.blit(dot, a)
+            a = (a[0] - d_x, a[1] - d_y)
+
             
 
-    def draw(self, screen: pg.Surface, date = 0) -> None:
+    def draw(self, screen: pg.Surface, p: Player) -> None:
         screen.blit(self.background_image, (0,0))
         for _, icon in self.icons.items():
             screen.blit(icon.image, icon.pos())
         if screen_status.focus:
-            Screen._draw_on_center(screen_status.focus_icon, self.selector_image, screen, date)
+            Screen._draw_on_center(screen_status.focus_icon, self.selector_image, screen, p.star_date)
 
     def update(self, p: Player) -> Player:
         # new_p.star_date += 0.001
@@ -83,10 +92,12 @@ class NavScreen(Screen):
         d_y = abs(a_y - a_y)
         return TRAVEL_TIME_PER_PIXEL * sqrt(d_x**2 + d_y**2)
     
-    def draw(self, screen: pg.Surface, date = 0) -> None:
-        super().draw(screen, date)
+    def draw(self, screen: pg.Surface, p: Player) -> None:
+        super().draw(screen, p)
         for _, icon in self.planet_icons.items():
-            screen.blit(icon.image, icon.pos(date))
+            screen.blit(icon.image, icon.pos(p.star_date))
+        if screen_status.focus and screen_status.focus != p.cur_planet:
+            Screen._draw_dotted_line(self.planet_icons[p.cur_planet].pos(p.star_date), screen_status.focus_icon.pos(p.star_date), screen, self.dot_image)
 
     def update(self, p: Player) -> Player:
         global screen_status
@@ -128,14 +139,14 @@ class EconomyScreen(Screen):
         }
         assert deep_compare_lists(PRODUCT_LIST, self.product_icons.keys()), "Incomplete planet list on Econ Screen"
 
-    def draw(self, screen: pg.Surface, date = 0) -> None:
-        super().draw(screen, date)
+    def draw(self, screen: pg.Surface, p: Player) -> None:
+        super().draw(screen, p)
         for _, icon in self.planet_icons.items():
-            screen.blit(icon.image, icon.pos(date))
+            screen.blit(icon.image, icon.pos(p.star_date))
         for _, icon in self.product_icons.items():
-            screen.blit(icon.image, icon.pos(date))
+            screen.blit(icon.image, icon.pos(p.star_date))
         if screen_status.second_focus:
-            Screen._draw_on_center(screen_status.second_focus_icon, self.second_selector_image, screen, date)
+            Screen._draw_on_center(screen_status.second_focus_icon, self.second_selector_image, screen, p.star_date)
 
     def update(self, p: Player) -> Player:
         global screen_status
