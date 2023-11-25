@@ -9,7 +9,7 @@ import pygame as pg
 from utils.player import Player
 from utils.planet import Planet
 from utils.screen_status import ScreenStatus, Planet_Icon, Static_Icon, Icon
-from utils.helper_funcs import deep_compare_lists, euc_dis
+from utils.helper_funcs import deep_compare_lists, euc_dis, tup_add
 from utils.key_handler import *
 from utils.globals import *
 
@@ -153,8 +153,10 @@ class EconomyScreen(Screen):
             screen.blit(icon.image, icon.pos(p.star_date))
         if screen_status.second_focus:
             Screen._draw_on_center(screen_status.second_focus_icon, self.second_selector_image, screen, p.star_date)
-        for product in Screen._planet_list[screen_status.focus].products:
-            pass
+        for product, prices in Screen._planet_list[screen_status.focus].products.items():
+            self.dot_image.fill(COLOR_CODES[PRODUCT_COLORS[product]])
+            for i, p in enumerate(prices):
+                screen.blit(self.dot_image, tup_add(ECON_GRAPH_ORIGIN, (i*30, p)))
 
     def update(self, p: Player) -> Player:
         global screen_status
