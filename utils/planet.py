@@ -1,3 +1,7 @@
+# TODO: use better price generation method. Trend + season + variance
+# TODO: add random events that impact prices
+# TODO: add a legality mechanism
+
 import os
 import json
 from random import choice, uniform

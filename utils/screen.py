@@ -1,3 +1,5 @@
+# TODO: plot market values on econ screen
+
 import json
 import os
 from math import sqrt
@@ -26,6 +28,7 @@ class Screen:
             self.selector_file = str(configs["selector_file"])
             self.selector_image = pg.image.load(os.path.join(IMG_DIR, self.selector_file+".png"))
             self.second_selector_file = str(configs["second_selector_file"])
+            self.dot_file = str(configs["dot_file"])
             self.key_handler = None
 
             self.icons = {}
@@ -69,6 +72,7 @@ class NavScreen(Screen):
         self.planet_icons["Earth"] = Planet_Icon("Earth", 200, 1, 0)
         self.planet_icons["Venus"] = Planet_Icon("Venus", 100, 0.615, 0.5)
         self.planet_icons["Mars"] = Planet_Icon("Mars", 400, 1.88, 0.75)
+        self.dot_image = pg.image.load(os.path.join(IMG_DIR, self.dot_file+".png"))
         self.key_handler = NavKeyHandler()
         assert deep_compare_lists(PLANET_LIST, self.planet_icons.keys()), "Incomplete planet list on Nav Screen"
 
@@ -109,6 +113,7 @@ class EconomyScreen(Screen):
         super().__init__("economy")
         self.key_handler = EconomyKeyHandler()
         self.second_selector_image = pg.image.load(os.path.join(IMG_DIR, self.second_selector_file+".png"))
+        self.dot_image = pg.image.load(os.path.join(IMG_DIR, self.dot_file+".png"))
         self.planet_icons = {
             "Venus" : Static_Icon("Venus", (200, 100), ECON_ICON_SIZE),
             "Mars" : Static_Icon("Mars", (400, 100), ECON_ICON_SIZE),
