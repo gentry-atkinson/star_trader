@@ -9,7 +9,7 @@ if __name__ == "__main__":
     pg.display.set_caption("Star Trader")
     screen_display = pg.display.set_mode(SCREEN_SIZE)
 
-    planets = {p : Planet(p) for p in ["Earth"]}
+    planets = {p : Planet(p) for p in PLANET_LIST}
     Screen.set_planet_dict(planets)
     screens = {s : ScreenFactory(s) for s in SCREEN_LIST}
     player = Player()

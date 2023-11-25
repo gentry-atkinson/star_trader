@@ -18,4 +18,18 @@ TRAVEL_TIME_PER_PIXEL = 0.001
 ECON_ICON_SIZE = (40, 40)
 ECON_PRODUCT_SIZE = (60, 30)
 DIS_BETWEEN_LINE_DOTS = 40
-DOT_SIZE = 20
+DOT_SIZE = 10
+
+COLOR_CODES = {
+    "green" : (0, 255, 0),
+    "red" : (255, 0, 0),
+    "blue" : (0, 0, 255),
+    "purple" : (255, 0, 255)
+}
+
+PRODUCT_COLORS = {
+    "iron" : "red",
+    "methane" : "green",
+    "clothing" : "blue",
+    "medicine" : "purple"
+}

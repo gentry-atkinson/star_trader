@@ -47,8 +47,8 @@ class Screen:
         )
 
     def _draw_dotted_line(a: tuple, b: tuple, screen: pg.surface, dot: pg.surface):
-        num_dots = euc_dis(a, b) // DIS_BETWEEN_LINE_DOTS + 1
-        a = a = (a[0] + DOT_SIZE//2, a[1] + DOT_SIZE//2)
+        num_dots = euc_dis(a, b) // DIS_BETWEEN_LINE_DOTS
+        a = a = (a[0] + PLANET_ICON_SIZE[0]//2 - DOT_SIZE//2, a[1] + PLANET_ICON_SIZE[1]//2 - DOT_SIZE//2)
         d_x = (a[0] - b[0]) // num_dots
         d_y = (a[1] - b[1]) // num_dots
         for _ in range(int(num_dots)):
@@ -82,6 +82,8 @@ class NavScreen(Screen):
         self.planet_icons["Venus"] = Planet_Icon("Venus", 100, 0.615, 0.5)
         self.planet_icons["Mars"] = Planet_Icon("Mars", 400, 1.88, 0.75)
         self.dot_image = pg.image.load(os.path.join(IMG_DIR, self.dot_file+".png"))
+        self.dot_image = pg.transform.scale(self.dot_image, (DOT_SIZE, DOT_SIZE))
+        self.dot_image.fill(color=(0, 255, 0))
         self.key_handler = NavKeyHandler()
         assert deep_compare_lists(PLANET_LIST, self.planet_icons.keys()), "Incomplete planet list on Nav Screen"
 
@@ -97,7 +99,11 @@ class NavScreen(Screen):
         for _, icon in self.planet_icons.items():
             screen.blit(icon.image, icon.pos(p.star_date))
         if screen_status.focus and screen_status.focus != p.cur_planet:
-            Screen._draw_dotted_line(self.planet_icons[p.cur_planet].pos(p.star_date), screen_status.focus_icon.pos(p.star_date), screen, self.dot_image)
+            Screen._draw_dotted_line(
+                self.planet_icons[p.cur_planet].pos(p.star_date), 
+                screen_status.focus_icon.pos(p.star_date), 
+                screen, self.dot_image
+            )
 
     def update(self, p: Player) -> Player:
         global screen_status
@@ -147,6 +153,8 @@ class EconomyScreen(Screen):
             screen.blit(icon.image, icon.pos(p.star_date))
         if screen_status.second_focus:
             Screen._draw_on_center(screen_status.second_focus_icon, self.second_selector_image, screen, p.star_date)
+        for product in Screen._planet_list[screen_status.focus].products:
+            pass
 
     def update(self, p: Player) -> Player:
         global screen_status
