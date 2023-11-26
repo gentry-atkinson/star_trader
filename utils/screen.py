@@ -28,7 +28,6 @@ class Screen:
     _planet_list = None
     def __init__(self, name: str) -> None:
         with open(os.path.join("config", name+".ini"), 'r') as f:
-            #print(os.listdir())
             configs = dict(json.load(f))
             self.name = name
             self.background_file = str(configs["background_file"])
@@ -207,11 +206,10 @@ class JumpScreen(Screen):
         if self.start_timer == -1:
             screen_status.focus = ""
             screen_status.focus_icon = None
-            self.timer = pg.time.get_ticks()
-        elif pg.time.get_ticks() - self.timer > JUMP_TIME_MS:
-            self.timer = -1
-            print(pg.time.get_ticks() - self.timer)
-            p.cur_screen = "cockpit"
+            self.start_timer = pg.time.get_ticks()
+        elif pg.time.get_ticks() - self.start_timer > JUMP_TIME_MS:
+            self.start_timer = -1
+            p.cur_screen_name = "cockpit"
         return p
     
     def draw(self, screen: pg.Surface, p: Player) -> None:
