@@ -131,6 +131,7 @@ class EconomyScreen(Screen):
         self.key_handler = EconomyKeyHandler()
         self.second_selector_image = pg.image.load(os.path.join(IMG_DIR, self.second_selector_file+".png"))
         self.dot_image = pg.image.load(os.path.join(IMG_DIR, self.dot_file+".png"))
+        self.dot_image = pg.transform.scale(self.dot_image, (DOT_SIZE, DOT_SIZE))
         self.planet_icons = {
             "Venus" : Static_Icon("Venus", (200, 100), ECON_ICON_SIZE),
             "Mars" : Static_Icon("Mars", (400, 100), ECON_ICON_SIZE),
@@ -153,10 +154,17 @@ class EconomyScreen(Screen):
             screen.blit(icon.image, icon.pos(p.star_date))
         if screen_status.second_focus:
             Screen._draw_on_center(screen_status.second_focus_icon, self.second_selector_image, screen, p.star_date)
+        if screen_status.focus == '':
+            return
+        min_price = min([min(prices) for prices in Screen._planet_list[screen_status.focus].products.values()])
+        max_price = max([max(prices) for prices in Screen._planet_list[screen_status.focus].products.values()])
+        d_y = ECON_GRAPH_HEIGHT // (max_price - min_price)
+        d_x = ECON_GRAPH_WIDTH // 30
         for product, prices in Screen._planet_list[screen_status.focus].products.items():
             self.dot_image.fill(COLOR_CODES[PRODUCT_COLORS[product]])
-            for i, p in enumerate(prices):
-                screen.blit(self.dot_image, tup_add(ECON_GRAPH_ORIGIN, (i*30, p)))
+            if self.product_icons[product].highlight:
+                for i, p in enumerate(prices):
+                    screen.blit(self.dot_image, tup_add(ECON_GRAPH_ORIGIN, (i*d_x, -p*d_y)))
 
     def update(self, p: Player) -> Player:
         global screen_status
@@ -171,6 +179,9 @@ class EconomyScreen(Screen):
         else:
             screen_status.second_focus_icon = None
         
+        if screen_status.toggle:
+            self.product_icons[screen_status.second_focus].highlight = not self.product_icons[screen_status.second_focus].highlight
+            screen_status.toggle = False  
         return p
 
 def ScreenFactory(name: str) -> Screen:

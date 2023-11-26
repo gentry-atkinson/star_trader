@@ -136,6 +136,8 @@ class EconomyKeyHandler(Key_Handler):
                 if event.key == pg.K_DOWN:
                     s.second_focus_idx = (s.second_focus_idx+1) % len(PRODUCT_LIST)
                     s.second_focus = PRODUCT_LIST[s.second_focus_idx]
+                if event.key == pg.K_RETURN:
+                    s.toggle = True
             if event.type == pg.QUIT:
                 p.running = False
         return (p, s)

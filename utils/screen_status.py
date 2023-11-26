@@ -13,6 +13,7 @@ class ScreenStatus:
         self.second_focus = None
         self.second_focus_idx = -1
         self.second_focus_icon = None
+        self.toggle = False
 
 class Icon:
     def __init__(self, name) -> None:
@@ -40,6 +41,7 @@ class Static_Icon(Icon):
         self.position = position
         self.image = pg.image.load(os.path.join(IMG_DIR, name+"_nav_icon.png"))
         self.image = pg.transform.scale(self.image, size)
+        self.highlight = True
 
 
     def pos(self, date=None) -> tuple:
