@@ -46,3 +46,21 @@ class Static_Icon(Icon):
 
     def pos(self, date=None) -> tuple:
         return self.position
+    
+class Animated_Icon(Icon):
+    def __init__(self, name: str, position: tuple, size: tuple, num_frames: int, tick=100) -> None:
+        super().__init__(name)
+        self.position = position
+        self.num_frames = num_frames
+        self.cur_frame = 0
+        self.tick = tick
+        self.cur_time = pg.time.get_ticks()
+        self.image = [pg.image.load(os.path.join(IMG_DIR, name+f"_animation_frame_{i}.png")) for i in range(num_frames)]
+        self.image = [pg.transform.scale(i, size) for i in self.image]
+
+    def img(self)-> pg.Surface:
+        new_time = pg.time.get_ticks()
+        if new_time - self.cur_time > self.tick:
+            self.cur_frame = (self.cur_frame + 1) % self.num_frames
+            self.cur_time = new_time
+        return self.image[self.cur_frame]

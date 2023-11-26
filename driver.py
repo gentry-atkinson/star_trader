@@ -1,3 +1,7 @@
+# TODO add a Ship class
+# TODO correct ini files for planets
+# TODO add new planets and products
+
 import pygame as pg
 from utils.screen import ScreenFactory, Screen
 from utils.player import Player

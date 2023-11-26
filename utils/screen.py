@@ -1,4 +1,11 @@
-# TODO: plot market values on econ screen
+# TODO diagnose exploding max values on econ screen
+# TODO add a shipyard to the Local screen
+# TODO add portwise price display on local screen
+# TODO add buying and selling on local screen
+# TODO add travel time to nav screen
+# TODO add ship info to cockpit screen
+# TODO add screen transistion animations
+# TODO add jump animation
 
 import json
 import os

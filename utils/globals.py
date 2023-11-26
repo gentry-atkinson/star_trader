@@ -1,3 +1,5 @@
+# TODO organize into groups and comment a little
+
 import os
 
 SCREEN_SIZE = (1200, 800)
