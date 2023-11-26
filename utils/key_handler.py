@@ -43,6 +43,7 @@ class NavKeyHandler(Key_Handler):
                     s.focus = PLANET_LIST[cur_idx]
                 if event.key == pg.K_RETURN and cur_idx > -1:
                     p.cur_planet = PLANET_LIST[cur_idx]
+                    p.cur_screen_name = "jump"
 
             if event.type == pg.QUIT:
                 p.running = False
@@ -138,6 +139,18 @@ class EconomyKeyHandler(Key_Handler):
                     s.second_focus = PRODUCT_LIST[s.second_focus_idx]
                 if event.key == pg.K_RETURN:
                     s.toggle = True
+            if event.type == pg.QUIT:
+                p.running = False
+        return (p, s)
+    
+class EmptyKeyHandler(Key_Handler):
+    def __init__(self) -> None:
+        super().__init__()
+        pass
+
+    def process_keys(self, p: Player, s: ScreenStatus) -> tuple:
+        events = pg.event.get()
+        for event in events:
             if event.type == pg.QUIT:
                 p.running = False
         return (p, s)

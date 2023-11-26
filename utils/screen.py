@@ -12,10 +12,11 @@ import os
 from math import sqrt
 
 import pygame as pg
+from utils.key_handler import Player, pg
 
 from utils.player import Player
 from utils.planet import Planet
-from utils.screen_status import ScreenStatus, Planet_Icon, Static_Icon, Icon
+from utils.screen_status import ScreenStatus, Planet_Icon, Static_Icon, Icon, Animated_Icon
 from utils.helper_funcs import deep_compare_lists, euc_dis, tup_add
 from utils.key_handler import *
 from utils.globals import *
@@ -33,7 +34,8 @@ class Screen:
             self.background_file = str(configs["background_file"])
             self.background_image = pg.image.load(os.path.join(IMG_DIR, self.background_file+".png"))
             self.selector_file = str(configs["selector_file"])
-            self.selector_image = pg.image.load(os.path.join(IMG_DIR, self.selector_file+".png"))
+            if self.selector_file:
+                self.selector_image = pg.image.load(os.path.join(IMG_DIR, self.selector_file+".png"))
             self.second_selector_file = str(configs["second_selector_file"])
             self.dot_file = str(configs["dot_file"])
             self.key_handler = None
@@ -190,6 +192,34 @@ class EconomyScreen(Screen):
             self.product_icons[screen_status.second_focus].highlight = not self.product_icons[screen_status.second_focus].highlight
             screen_status.toggle = False  
         return p
+    
+class JumpScreen(Screen):
+    def __init__(self) -> None:
+        super().__init__("jump")
+        self.moving_screen = Animated_Icon("star_field", (0,0), (1200, 800), 3, pg.time.get_ticks(), 100)
+        self.start_timer = -1
+        self.key_handler = EmptyKeyHandler()
+
+
+    def update(self, p: Player) -> Player:
+        global screen_status
+        p = super().update(p)
+        if self.start_timer == -1:
+            screen_status.focus = ""
+            screen_status.focus_icon = None
+            self.timer = pg.time.get_ticks()
+        elif pg.time.get_ticks() - self.timer > JUMP_TIME_MS:
+            self.timer = -1
+            print(pg.time.get_ticks() - self.timer)
+            p.cur_screen = "cockpit"
+        return p
+    
+    def draw(self, screen: pg.Surface, p: Player) -> None:
+        super().draw(screen, p)
+        screen.blit(
+            self.moving_screen.img(pg.time.get_ticks()),
+            self.moving_screen.position
+        )
 
 def ScreenFactory(name: str) -> Screen:
     if name == "navigation":
@@ -203,6 +233,9 @@ def ScreenFactory(name: str) -> Screen:
         return s
     elif name == "economy":
         s = EconomyScreen()
+        return s
+    elif name == "jump":
+        s = JumpScreen()
         return s
     else:
         s = Screen(name)
