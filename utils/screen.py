@@ -131,7 +131,7 @@ class LocalScreen(Screen):
     def __init__(self) -> None:
         super().__init__("local")
         self.key_handler = LocalKeyHandler()
-        self.font = pg.font.SysFont(None, 32)
+        self.font = pg.font.Font(FIXED_SYS_FONT_FILE, 32)
 
     def draw(self, screen: pg.Surface, p: Player) -> None:
         super().draw(screen, p)
@@ -139,8 +139,8 @@ class LocalScreen(Screen):
         num_rows = len(PRODUCT_LIST)
 
         PRICE_HEIGHT = 40
-        PRICE_WIDTH = 100
-        X_OFFSET = 200
+        PRICE_WIDTH = 150
+        X_OFFSET = 300
         Y_OFFSET = 200
         
 
@@ -148,7 +148,7 @@ class LocalScreen(Screen):
             screen.blit(
                     self.font.render(f"{product}", False, COLOR_CODES["green"]),
                     (
-                        X_OFFSET//2,
+                        X_OFFSET//3,
                         Y_OFFSET + i * PRICE_HEIGHT
                     )
             )

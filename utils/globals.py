@@ -25,6 +25,7 @@ ECON_GRAPH_ORIGIN = (100, 700)
 ECON_GRAPH_HEIGHT = 600
 ECON_GRAPH_WIDTH = 1000
 JUMP_TIME_MS = 500
+FIXED_SYS_FONT_FILE = os.path.join("utils", "fonts", "FSEX302.ttf")
 
 COLOR_CODES = {
     "green" : (0, 255, 0),
