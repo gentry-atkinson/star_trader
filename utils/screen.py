@@ -138,12 +138,20 @@ class LocalScreen(Screen):
         num_cols = Screen._planet_list[p.cur_planet].get_num_ports()
         num_rows = len(PRODUCT_LIST)
 
-        PRICE_HEIGHT = 20
-        PRICE_WIDTH = 60
-        X_OFFSET = 100
-        Y_OFFSET = 100
+        PRICE_HEIGHT = 40
+        PRICE_WIDTH = 100
+        X_OFFSET = 200
+        Y_OFFSET = 200
+        
 
         for i, product in enumerate(PRODUCT_LIST):
+            screen.blit(
+                    self.font.render(f"{product}", False, COLOR_CODES["green"]),
+                    (
+                        X_OFFSET//2,
+                        Y_OFFSET + i * PRICE_HEIGHT
+                    )
+            )
             for j, port in enumerate(Screen._planet_list[p.cur_planet].get_port_names()):
                 price = Screen._planet_list[p.cur_planet].get_port_price(port, product)
                 screen.blit(
