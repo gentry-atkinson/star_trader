@@ -5,7 +5,6 @@
 # TODO add travel time to nav screen
 # TODO add ship info to cockpit screen
 # TODO add screen transistion animations
-# TODO add jump animation
 
 import json
 import os
@@ -26,7 +25,7 @@ screen_status = ScreenStatus()
 
 class Screen:
     _planet_list = None
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str, font=None) -> None:
         with open(os.path.join("config", name+".ini"), 'r') as f:
             configs = dict(json.load(f))
             self.name = name
@@ -132,6 +131,30 @@ class LocalScreen(Screen):
     def __init__(self) -> None:
         super().__init__("local")
         self.key_handler = LocalKeyHandler()
+        self.font = pg.font.SysFont(None, 32)
+
+    def draw(self, screen: pg.Surface, p: Player) -> None:
+        super().draw(screen, p)
+        num_cols = Screen._planet_list[p.cur_planet].get_num_ports()
+        num_rows = len(PRODUCT_LIST)
+
+        PRICE_HEIGHT = 20
+        PRICE_WIDTH = 60
+        X_OFFSET = 100
+        Y_OFFSET = 100
+
+        for i, product in enumerate(PRODUCT_LIST):
+            for j, port in enumerate(Screen._planet_list[p.cur_planet].get_port_names()):
+                price = Screen._planet_list[p.cur_planet].get_port_price(port, product)
+                screen.blit(
+                    self.font.render(f"{price: .2f}", False, COLOR_CODES["green"]),
+                    (
+                        X_OFFSET + j*PRICE_WIDTH,
+                        Y_OFFSET + i * PRICE_HEIGHT
+                    )
+                )
+
+
 
 class EconomyScreen(Screen):
     def __init__(self) -> None:

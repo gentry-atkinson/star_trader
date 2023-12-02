@@ -10,12 +10,12 @@ class Player:
         self.running = True
         self.running = True
 
-    def copy(self):
-        p = Player()
-        p.money = self.money
-        p.star_date = self.star_date
-        p.cur_planet = self.cur_planet
-        p.cur_screen = self.cur_screen
-        p.cur_screen_name = self.cur_screen_name
-        p.running = self.running
-        return p
+    # def copy(self):
+    #     p = Player()
+    #     p.money = self.money
+    #     p.star_date = self.star_date
+    #     p.cur_planet = self.cur_planet
+    #     p.cur_screen = self.cur_screen
+    #     p.cur_screen_name = self.cur_screen_name
+    #     p.running = self.running
+    #     return p

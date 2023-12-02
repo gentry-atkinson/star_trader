@@ -18,7 +18,7 @@ class Planet:
             configs = dict(json.load(f))
             self.name = name
             self.ports = {
-                Port(p) for p in list(configs["ports"])
+                p: Port(p) for p in list(configs["ports"])
             }
             self.wealth = str(configs["wealth"])
             self.corruption = str(configs["corruption"])
@@ -60,6 +60,16 @@ class Planet:
                     )
             self.products[prod][-1] = self.products[prod][-1] * (1+(uniform(-1, 1) *VOLATILITY[self.volatility]))
             self.products[prod] = self.products[prod][-1]
+
+    def get_num_ports(self):
+        return len(self.ports)
+    
+    def get_port_price(self, port: str, product: str) -> float:
+        price = self.products[product][-1] 
+        return price + self.ports[port].offsets[product]
+    
+    def get_port_names(self) -> list:
+        return self.ports.keys()
 
 # if __name__ == '__main__':
 #     earth = {
